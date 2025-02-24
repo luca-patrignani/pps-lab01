@@ -85,4 +85,9 @@ public class SmartDoorLockTest {
         assertFalse(lock.isBlocked());
         assertEquals(0, lock.getFailedAttempts());
     }
+
+    @Test
+    public void test5DigitPin() {
+        assertThrows(IllegalArgumentException.class, () -> lock.setPin(12345));
+    }
 }

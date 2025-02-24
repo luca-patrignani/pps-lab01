@@ -8,8 +8,15 @@ public class SmartDoorLockImpl implements SmartDoorLock {
 
 
     @Override
-    public void setPin(int pin) {
+    public void setPin(int pin) throws IllegalArgumentException {
+        if (!hasFourDigits(pin)) {
+            throw new IllegalArgumentException("The pin has more than 5 digits.");
+        }
         this.pin = pin;
+    }
+
+    private boolean hasFourDigits(int pin) {
+        return pin <= 9999;
     }
 
     @Override
