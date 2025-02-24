@@ -11,7 +11,6 @@ public class SmartDoorLockTest {
     private static final int INITIAL_PIN = 1234;
     private static final int WRONG_PIN = 9999;
     private static final int NEW_PIN = 8008;
-    private static final int MAX_ATTEMPTS = 10;
 
     @BeforeEach
     public void beforeEach() {
@@ -58,27 +57,27 @@ public class SmartDoorLockTest {
     @Test
     public void testManyAttempts() {
         lock.lock();
-        for (int i = 0; i < MAX_ATTEMPTS-1; i++) {
+        for (int i = 0; i < lock.getMaxAttempts()-1; i++) {
             lock.unlock(WRONG_PIN);
         }
-        assertEquals(MAX_ATTEMPTS-1, lock.getFailedAttempts());
+        assertEquals(lock.getMaxAttempts()-1, lock.getFailedAttempts());
         assertFalse(lock.isBlocked());
     }
 
     @Test
     public void testTooManyAttempts() {
         lock.lock();
-        for (int i = 0; i < MAX_ATTEMPTS; i++) {
+        for (int i = 0; i < lock.getMaxAttempts(); i++) {
             lock.unlock(WRONG_PIN);
         }
-        assertEquals(MAX_ATTEMPTS, lock.getFailedAttempts());
+        assertEquals(lock.getMaxAttempts(), lock.getFailedAttempts());
         assertTrue(lock.isBlocked());
     }
 
     @Test
     public void testReset() {
         lock.lock();
-        for (int i = 0; i < MAX_ATTEMPTS; i++) {
+        for (int i = 0; i < lock.getMaxAttempts(); i++) {
             lock.unlock(WRONG_PIN);
         }
         lock.reset();
