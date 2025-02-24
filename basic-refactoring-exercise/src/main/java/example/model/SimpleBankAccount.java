@@ -40,7 +40,7 @@ public class SimpleBankAccount implements BankAccount {
     }
 
     private boolean isWithdrawAllowed(final double amount){
-        return this.balance >= amount;
+        return this.balance >= amount + WITHDRAWAL_FEE;
     }
 
     private boolean checkUser(final int id) {
