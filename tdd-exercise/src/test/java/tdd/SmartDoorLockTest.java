@@ -9,6 +9,7 @@ public class SmartDoorLockTest {
 
     private SmartDoorLockImpl lock;
     private static final int INITIAL_PIN = 1234;
+    private static final int WRONG_PIN = 9999;
 
     @BeforeEach
     public void beforeEach() {
@@ -32,5 +33,12 @@ public class SmartDoorLockTest {
         lock.lock();
         lock.unlock(INITIAL_PIN);
         assertFalse(lock.isLocked());
+    }
+
+    @Test
+    public void testLockAndThenUnlockWrong() {
+        lock.lock();
+        lock.unlock(WRONG_PIN);
+        assertTrue(lock.isLocked());
     }
 }
