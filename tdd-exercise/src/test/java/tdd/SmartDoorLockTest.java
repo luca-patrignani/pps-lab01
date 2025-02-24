@@ -26,4 +26,11 @@ public class SmartDoorLockTest {
         lock.lock();
         assertTrue(lock.isLocked());
     }
+
+    @Test
+    public void testLockAndThenUnlock() {
+        lock.lock();
+        lock.unlock(INITIAL_PIN);
+        assertFalse(lock.isLocked());
+    }
 }

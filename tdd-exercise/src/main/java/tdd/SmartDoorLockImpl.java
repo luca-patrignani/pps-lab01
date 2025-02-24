@@ -6,12 +6,14 @@ public class SmartDoorLockImpl implements SmartDoorLock {
 
     @Override
     public void setPin(int pin) {
-
+        this.pin = pin;
     }
 
     @Override
     public void unlock(int pin) {
-
+        if (pin == this.pin) {
+            locked = false;
+        }
     }
 
     @Override
