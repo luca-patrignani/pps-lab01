@@ -1,7 +1,9 @@
 package tdd;
 
+import java.util.Optional;
+
 public class SmartDoorLockImpl implements SmartDoorLock {
-    private int pin;
+    private Optional<Integer> pin = Optional.empty();
     private boolean locked;
     private int failedAttempts;
     private static final int MAX_ATTEMPTS = 10;
@@ -12,7 +14,7 @@ public class SmartDoorLockImpl implements SmartDoorLock {
         if (!hasFourDigits(pin)) {
             throw new IllegalArgumentException("The pin has more than 5 digits.");
         }
-        this.pin = pin;
+        this.pin = Optional.of(pin);
     }
 
     private boolean hasFourDigits(int pin) {
@@ -21,7 +23,7 @@ public class SmartDoorLockImpl implements SmartDoorLock {
 
     @Override
     public void unlock(int pin) {
-        if (pin == this.pin && !isBlocked()) {
+        if (this.pin.isPresent() && pin == this.pin.get() && !isBlocked()) {
             locked = false;
         } else {
             failedAttempts++;
@@ -30,6 +32,9 @@ public class SmartDoorLockImpl implements SmartDoorLock {
 
     @Override
     public void lock() {
+        if (pin.isEmpty()) {
+            throw new IllegalStateException("The lock cannot be locked without a pin.");
+        }
         locked = true;
     }
 
@@ -57,5 +62,6 @@ public class SmartDoorLockImpl implements SmartDoorLock {
     public void reset() {
         this.locked = false;
         this.failedAttempts = 0;
+        this.pin = Optional.empty();
     }
 }

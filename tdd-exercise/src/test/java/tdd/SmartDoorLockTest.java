@@ -93,10 +93,17 @@ public class SmartDoorLockTest {
         assertFalse(lock.isLocked());
         assertFalse(lock.isBlocked());
         assertEquals(0, lock.getFailedAttempts());
+        assertThrows(IllegalStateException.class, lock::lock);
     }
 
     @Test
     public void test5DigitPin() {
         assertThrows(IllegalArgumentException.class, () -> lock.setPin(12345));
+    }
+
+    @Test
+    public void testLockWithNoPin() {
+        lock = new SmartDoorLockImpl();
+        assertThrows(IllegalStateException.class, lock::lock);
     }
 }
